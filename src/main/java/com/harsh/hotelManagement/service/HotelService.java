@@ -2,7 +2,7 @@ package com.harsh.hotelManagement.service;
 
 import com.harsh.hotelManagement.model.Hotel;
 import com.harsh.hotelManagement.model.Room;
-import com.harsh.hotelManagement.model.RoomStatus;
+import com.harsh.hotelManagement.model.enums.RoomStatus;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -49,10 +49,27 @@ public class HotelService {
         return hotelIdx;
     }
 
+    private int getHotelIdxByLocation(String location){
+        if(location.equals("")) return -1;
+
+        int hotelIdx=-1;
+
+        for(int i=0; i< hotels.size(); i++)
+            if(hotels.get(i).getLocation().equals(location)) hotelIdx = i;
+
+        return hotelIdx;
+    }
+
 //    ---------- public -----------
     public Hotel getHotelByName(String name){
         Hotel hotel = null;
         int idx = getHotelIdxByName(name);
+        return idx == -1 ? null : hotels.get(idx);
+    }
+
+    public Hotel getHotelByLocation(String location){
+        Hotel hotel = null;
+        int idx = getHotelIdxByLocation(location);
         return idx == -1 ? null : hotels.get(idx);
     }
 }

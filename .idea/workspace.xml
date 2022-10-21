@@ -4,19 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77407a3c-ee21-44b6-a14a-9d97b551dadd" name="Changes" comment="added HomeController with home page url">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/CustomerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HotelController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Customer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Hotel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Room.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/RoomStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/repository/CustomerRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/CustomerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" afterDir="false" />
+    <list default="true" id="77407a3c-ee21-44b6-a14a-9d97b551dadd" name="Changes" comment="add customer apis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/Controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HotelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HotelController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/RoomStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/enums/RoomStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +47,11 @@
     "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/enums" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="HotelManagementApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.harsh.hotelManagement.HotelManagementApp" />
@@ -106,7 +105,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="added HomeController with home page url" />
-    <option name="LAST_COMMIT_MESSAGE" value="added HomeController with home page url" />
+    <MESSAGE value="add customer apis" />
+    <option name="LAST_COMMIT_MESSAGE" value="add customer apis" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
