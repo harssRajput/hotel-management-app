@@ -5,6 +5,8 @@ import com.harsh.hotelManagement.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class HotelController {
 
@@ -21,5 +23,9 @@ public class HotelController {
         return hotelService.getHotelByLocation(location);
     }
 
+    @GetMapping("/hotel/available")
+    public List<Hotel> getHotelByAvailability(){
+        return hotelService.getHotelByAvailability();
+    }
 
 }

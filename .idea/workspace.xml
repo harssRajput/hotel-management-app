@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="77407a3c-ee21-44b6-a14a-9d97b551dadd" name="Changes" comment="add customer apis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HomeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HotelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HotelController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/RoomStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/enums/RoomStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

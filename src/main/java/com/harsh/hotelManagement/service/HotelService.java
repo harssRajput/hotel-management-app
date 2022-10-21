@@ -72,4 +72,12 @@ public class HotelService {
         int idx = getHotelIdxByLocation(location);
         return idx == -1 ? null : hotels.get(idx);
     }
+
+    public List<Hotel> getHotelByAvailability(){
+        List<Hotel> availableHotels = new ArrayList<>();
+        for (Hotel hotel : hotels)
+            if(hotel.getAvailableRoomCnt()>0) availableHotels.add(hotel);
+
+        return availableHotels;
+    }
 }
