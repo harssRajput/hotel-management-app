@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HotelService {
@@ -49,15 +50,14 @@ public class HotelService {
         return hotelIdx;
     }
 
-    private int getHotelIdxByLocation(String location){
-        if(location.equals("")) return -1;
-
-        int hotelIdx=-1;
-
-        for(int i=0; i< hotels.size(); i++)
-            if(hotels.get(i).getLocation().equals(location)) hotelIdx = i;
-
-        return hotelIdx;
+    private boolean isValid(Hotel hotel){
+        return (hotel.getName().isEmpty()
+                || hotel.getLocation().isEmpty()
+                || hotel.getAllRooms().size()==0
+                || hotel.getAllRooms().stream().filter(
+                (room) -> room.getStatus().equals(RoomStatus.VACANT)
+        ).count() != (long)hotel.getAvailableRoomCnt()
+        ) ? false : true;
     }
 
 //    ---------- public -----------
@@ -67,10 +67,12 @@ public class HotelService {
         return idx == -1 ? null : hotels.get(idx);
     }
 
-    public Hotel getHotelByLocation(String location){
-        Hotel hotel = null;
-        int idx = getHotelIdxByLocation(location);
-        return idx == -1 ? null : hotels.get(idx);
+    public List<Hotel> getHotelByLocation(String location){
+        List<Hotel> hotelListRes;
+
+        hotelListRes = hotels.stream().filter((hotel) -> hotel.getLocation().equals(location)).collect(Collectors.toList());
+
+        return hotelListRes;
     }
 
     public List<Hotel> getHotelByAvailability(){
@@ -79,5 +81,14 @@ public class HotelService {
             if(hotel.getAvailableRoomCnt()>0) availableHotels.add(hotel);
 
         return availableHotels;
+    }
+
+    public boolean addHotel(Hotel hotel){
+        boolean isAdded = true;//assume hotel is good to get added
+
+        if(!isValid(hotel)) isAdded = false;//validation failed
+        else hotels.add(hotel);
+
+        return isAdded;
     }
 }

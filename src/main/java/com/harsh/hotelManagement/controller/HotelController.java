@@ -19,13 +19,18 @@ public class HotelController {
     }
 
     @GetMapping("/hotel/location/{location}")
-    public Hotel getHotelByLocation(@PathVariable("location") String location){
+    public List<Hotel> getHotelByLocation(@PathVariable("location") String location){
         return hotelService.getHotelByLocation(location);
     }
 
     @GetMapping("/hotel/available")
     public List<Hotel> getHotelByAvailability(){
         return hotelService.getHotelByAvailability();
+    }
+
+    @PostMapping("/hotel")
+    public boolean addHotel(@RequestBody Hotel hotel){
+        return hotelService.addHotel(hotel);
     }
 
 }
