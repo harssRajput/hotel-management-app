@@ -1,7 +1,6 @@
 package com.harsh.hotelManagement.model;
 
 import com.harsh.hotelManagement.model.enums.RoomStatus;
-import com.harsh.hotelManagement.model.User;
 
 public class Room {
     private String roomId;
