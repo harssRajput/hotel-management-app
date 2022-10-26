@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoomBookRequestVo {
+public class RoomActionRequestVo {
     @JsonAlias(value = {"hName", "hname"})
     String hotelName;
 

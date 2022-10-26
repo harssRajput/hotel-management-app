@@ -65,6 +65,10 @@ public class HotelService {
         ) ? false : true;
     }
 
+    private boolean isAuthorised(User user, Room room){
+        return user.getName().equals(room.getRentedTo().getName());
+    }
+
 //    ---------- public -----------
     public Hotel getHotelByName(String name){
         Hotel hotel = null;
@@ -146,5 +150,40 @@ public class HotelService {
         hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() - 1);
 
         return "Room is booked successfully";
+    }
+
+    public String withdrawRoom(String hotelName, String roomId, String userName){
+        Hotel hotel = null;
+        Room room = null;
+        User user = null;
+
+        //validation
+        user = customerService.findCustomer(userName);
+        if(user == null) return "User not exist";
+
+        for (Hotel h : hotels)
+            if(h.getName().equals(hotelName)){
+                hotel = h;
+                break;
+            }
+        if(hotel == null) return "Hotel not exist";
+        if(hotel.getStatus().equals(HotelStatus.CLOSED)) return "Hotel is Closed";
+
+        for (Room r : hotel.getAllRooms())
+            if(r.getRoomId().equals(roomId)){
+                room = r;
+                break;
+            }
+        if(room == null) return "room not exist";
+        if(room.getStatus().equals(RoomStatus.VACANT)) return "Room is already Vacant";
+
+        if(!isAuthorised(user, room)) return "Failed! user not authorised to withdraw room";
+
+        //withdraw room logic
+        room.setStatus(RoomStatus.VACANT);
+        room.setRentedTo(null);
+        hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() + 1);
+
+        return "Room is withdrawn successfully";
     }
 }
