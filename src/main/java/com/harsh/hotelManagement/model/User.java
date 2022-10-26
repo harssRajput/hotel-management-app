@@ -1,6 +1,6 @@
 package com.harsh.hotelManagement.model;
 
-public class Customer {
+public class User {
     String name;
     int age;
 
@@ -12,10 +12,10 @@ public class Customer {
         this.age = age;
     }
 
-    public Customer() {
+    public User() {
     }
 
-    public Customer(String name, int age) {
+    public User(String name, int age) {
         this.name = name;
         this.age = age;
     }

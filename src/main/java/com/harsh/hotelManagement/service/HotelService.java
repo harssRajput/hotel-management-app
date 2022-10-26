@@ -2,9 +2,10 @@ package com.harsh.hotelManagement.service;
 
 import com.harsh.hotelManagement.model.Hotel;
 import com.harsh.hotelManagement.model.Room;
+import com.harsh.hotelManagement.model.User;
 import com.harsh.hotelManagement.model.enums.HotelStatus;
 import com.harsh.hotelManagement.model.enums.RoomStatus;
-import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class HotelService {
+
+    @Autowired
+    private CustomerService customerService;
 
     private List<Room> roomH1 = new ArrayList<Room>( Arrays.asList(
             new Room("usaRoom1", RoomStatus.VACANT),
@@ -109,5 +113,38 @@ public class HotelService {
             if(hotel.getName().equals(hotelName)) return hotel.getAllRooms();
 
         return new ArrayList<>();
+    }
+
+    public String bookRoom(String hotelName, String roomId, String userName){
+        Hotel hotel = null;
+        Room room = null;
+        User user = null;
+
+        //validation
+        user = customerService.findCustomer(userName);
+        if(user == null) return "User not exist";
+
+        for (Hotel h : hotels)
+            if(h.getName().equals(hotelName)){
+                hotel = h;
+                break;
+            }
+        if(hotel == null) return "Hotel not exist";
+        if(hotel.getStatus().equals(HotelStatus.CLOSED)) return "Hotel is Closed";
+
+        for (Room r : hotel.getAllRooms())
+            if(r.getRoomId().equals(roomId)){
+                room = r;
+                break;
+            }
+        if(room == null) return "room not exist";
+        if(room.getStatus().equals(RoomStatus.BOOKED)) return "Room is not available";
+
+        //room booking logic
+        room.setStatus(RoomStatus.BOOKED);
+        room.setRentedTo(user);
+        hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() - 1);
+
+        return "Room is booked successfully";
     }
 }

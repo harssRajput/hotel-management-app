@@ -1,6 +1,6 @@
 package com.harsh.hotelManagement.controller;
 
-import com.harsh.hotelManagement.model.Customer;
+import com.harsh.hotelManagement.model.User;
 import com.harsh.hotelManagement.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @RequestMapping("/customer")
-    public Customer findCustomerByName(@RequestParam("name") String name){
+    public User findCustomerByName(@RequestParam("name") String name){
         return customerService.findCustomer(name);
     }
 
@@ -22,7 +22,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customer")
-    public boolean addCustomer(@RequestBody Customer customer){
-        return customerService.addCustomer(customer);
+    public boolean addCustomer(@RequestBody User user){
+        return customerService.addCustomer(user);
     }
 }
