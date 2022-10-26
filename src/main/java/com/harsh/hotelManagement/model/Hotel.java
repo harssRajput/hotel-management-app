@@ -1,5 +1,7 @@
 package com.harsh.hotelManagement.model;
 
+import com.harsh.hotelManagement.model.enums.HotelStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +11,26 @@ public class Hotel {
     private String location;
     private List<Room> allRooms;
     private int availableRoomCnt;
+    private HotelStatus status;
 
 //    public Hotel() {}
-    public Hotel(String name, String location){
+    public Hotel(String name, String location, HotelStatus status){
         this.name = name;
         this.location = location;
         this.availableRoomCnt = 0;
         this.allRooms = new ArrayList<Room>();
+        this.status = status; //HotelStatus.OPEN;
     }
-//    -------- public --------
+
+    //    -------- public --------
+    public HotelStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HotelStatus status) {
+        this.status = status;
+    }
+
     public int getAvailableRoomCnt() {
         return availableRoomCnt;
     }

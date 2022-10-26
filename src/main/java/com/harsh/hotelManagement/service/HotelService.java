@@ -2,6 +2,7 @@ package com.harsh.hotelManagement.service;
 
 import com.harsh.hotelManagement.model.Hotel;
 import com.harsh.hotelManagement.model.Room;
+import com.harsh.hotelManagement.model.enums.HotelStatus;
 import com.harsh.hotelManagement.model.enums.RoomStatus;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class HotelService {
     ));
 
     private List<Hotel> hotels = new ArrayList<Hotel>(Arrays.asList(
-            new Hotel("usaHotel", "usa"),
-            new Hotel("arabHotel", "arab")
+            new Hotel("usaHotel", "usa", HotelStatus.OPEN),
+            new Hotel("arabHotel", "arab", HotelStatus.CLOSED)
     ));
 
     public HotelService(){
@@ -78,6 +79,16 @@ public class HotelService {
     public List<Hotel> getHotelByAvailability(){
         List<Hotel> availableHotels = new ArrayList<>();
         for (Hotel hotel : hotels)
+            if(hotel.getStatus().equals(HotelStatus.OPEN)) availableHotels.add(hotel);
+
+        return availableHotels;
+    }
+
+    public List<Hotel> getHotelByRoomAvailability(){
+        List<Hotel> availableHotels = new ArrayList<>();
+        List<Hotel> openedHotels = getHotelByAvailability();
+
+        for (Hotel hotel : openedHotels)
             if(hotel.getAvailableRoomCnt()>0) availableHotels.add(hotel);
 
         return availableHotels;
@@ -90,5 +101,13 @@ public class HotelService {
         else hotels.add(hotel);
 
         return isAdded;
+    }
+
+    public List<Room> getRoomByHotelName(String hotelName){
+
+        for (Hotel hotel : hotels)
+            if(hotel.getName().equals(hotelName)) return hotel.getAllRooms();
+
+        return new ArrayList<>();
     }
 }
