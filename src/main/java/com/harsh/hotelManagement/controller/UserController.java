@@ -1,5 +1,6 @@
 package com.harsh.hotelManagement.controller;
 
+import com.harsh.hotelManagement.model.AddUserResponseVo;
 import com.harsh.hotelManagement.model.User;
 import com.harsh.hotelManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,10 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public String addUser(@RequestBody User user){
+    public AddUserResponseVo addUser(@RequestBody User user){
+
+        if(user.getUsername() != null && user.getUsername().trim().isEmpty()) user.setUsername(null);
+
         return userService.addUser(user);
     }
 }

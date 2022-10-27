@@ -1,5 +1,6 @@
 package com.harsh.hotelManagement.service;
 
+import com.harsh.hotelManagement.model.AddUserResponseVo;
 import com.harsh.hotelManagement.model.User;
 import com.harsh.hotelManagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +49,13 @@ public class UserService {
         return true;
     }
 
-    public String addUser(User user){
-        if(userRepository.findUserByUsername(user.getUsername()).isPresent()){
-            return "username already taken";
-        }
-        userRepository.save(user);
+    public AddUserResponseVo addUser(User user){
+        AddUserResponseVo addUserResponseVo;
+        if(userRepository.findUserByUsername(user.getUsername()).isPresent())
+            addUserResponseVo = new AddUserResponseVo("username already taken", null);
+        else
+            addUserResponseVo = new AddUserResponseVo("user added successfully", userRepository.save(user));
 
-        return "user added successfully";
+        return addUserResponseVo;
     }
 }
