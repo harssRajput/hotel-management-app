@@ -5,19 +5,24 @@ import com.harsh.hotelManagement.model.Room;
 import com.harsh.hotelManagement.model.User;
 import com.harsh.hotelManagement.model.enums.HotelStatus;
 import com.harsh.hotelManagement.model.enums.RoomStatus;
+import com.harsh.hotelManagement.validation.HotelValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class HotelService {
 
     @Autowired
-    private CustomerService customerService;
+    private UserService userService;
+
+    @Autowired
+    private HotelValidation hotelValidation;
 
     private List<Room> roomH1 = new ArrayList<Room>( Arrays.asList(
             new Room("usaRoom1", RoomStatus.VACANT),
@@ -53,16 +58,6 @@ public class HotelService {
             if(hotels.get(i).getName().equals(name)) hotelIdx = i;
 
         return hotelIdx;
-    }
-
-    private boolean isValid(Hotel hotel){
-        return (hotel.getName().isEmpty()
-                || hotel.getLocation().isEmpty()
-                || hotel.getAllRooms().size()==0
-                || hotel.getAllRooms().stream().filter(
-                (room) -> room.getStatus().equals(RoomStatus.VACANT)
-        ).count() != (long)hotel.getAvailableRoomCnt()
-        ) ? false : true;
     }
 
     private boolean isAuthorised(User user, Room room){
@@ -105,7 +100,7 @@ public class HotelService {
     public boolean addHotel(Hotel hotel){
         boolean isAdded = true;//assume hotel is good to get added
 
-        if(!isValid(hotel)) isAdded = false;//validation failed
+        if(!hotelValidation.isNewHotelValid(hotel)) isAdded = false;//validation failed
         else hotels.add(hotel);
 
         return isAdded;
@@ -125,8 +120,12 @@ public class HotelService {
         User user = null;
 
         //validation
-        user = customerService.findCustomer(userName);
-        if(user == null) return "User not exist";
+        Optional<User> optionalUser = userService.findUserByUserName(userName);
+        if(optionalUser.isPresent()){
+            user = optionalUser.get();
+        }else{
+            return "User not exist";
+        }
 
         for (Hotel h : hotels)
             if(h.getName().equals(hotelName)){
@@ -158,8 +157,12 @@ public class HotelService {
         User user = null;
 
         //validation
-        user = customerService.findCustomer(userName);
-        if(user == null) return "User not exist";
+        Optional<User> optionalUser = userService.findUserByUserName(userName);
+        if(optionalUser.isPresent()){
+            user = optionalUser.get();
+        }else{
+            return "User not exist";
+        }
 
         for (Hotel h : hotels)
             if(h.getName().equals(hotelName)){

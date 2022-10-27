@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77407a3c-ee21-44b6-a14a-9d97b551dadd" name="Changes" comment="add customer apis">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/validation/HotelValidation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/HotelManagementApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/HotelManagementApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HotelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/controller/HotelController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/repository/CustomerRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/validation/HotelValidation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/validation/HotelValidation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +31,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -41,7 +52,10 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "settings.editor.selected.configurable": "inlay.hints"
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "editor.preferences.completion"
   }
 }]]></component>
   <component name="RecentsManager">

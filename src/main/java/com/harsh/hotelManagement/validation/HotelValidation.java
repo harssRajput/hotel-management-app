@@ -2,7 +2,9 @@ package com.harsh.hotelManagement.validation;
 
 import com.harsh.hotelManagement.model.Hotel;
 import com.harsh.hotelManagement.model.enums.RoomStatus;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HotelValidation {
     public boolean isNewHotelValid(Hotel hotel){
         return (hotel.getName().isEmpty()
