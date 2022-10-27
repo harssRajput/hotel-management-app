@@ -1,11 +1,19 @@
 package com.harsh.hotelManagement.model;
 
 import com.harsh.hotelManagement.model.enums.RoomStatus;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
+@Document(collection = "rooms")
 public class Room {
+    @Id
     private String roomId;
+    @Field(targetType = FieldType.STRING)
     private RoomStatus status;
-    private User rentedTo;
+    private String rentedTo;//username of user
 
     public Room(String roomId, RoomStatus status) {
         this.roomId = roomId;
@@ -23,11 +31,11 @@ public class Room {
         return status;
     }
 
-    public User getRentedTo() {
+    public String getRentedTo() {
         return rentedTo;
     }
 
-    public void setRentedTo(User rentedTo) {
+    public void setRentedTo(String rentedTo) {
         this.rentedTo = rentedTo;
     }
 

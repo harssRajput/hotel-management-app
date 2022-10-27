@@ -1,16 +1,24 @@
 package com.harsh.hotelManagement.model;
 
 import com.harsh.hotelManagement.model.enums.HotelStatus;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Document(collection = "hotels")
 public class Hotel {
 
+    @Id
     private String name;
     private String location;
     private List<Room> allRooms;
     private int availableRoomCnt;
+    @Field(targetType = FieldType.STRING)
     private HotelStatus status;
 
 //    public Hotel() {}

@@ -3,9 +3,11 @@ package com.harsh.hotelManagement.service;
 import com.harsh.hotelManagement.model.Hotel;
 import com.harsh.hotelManagement.model.Room;
 import com.harsh.hotelManagement.model.User;
+import com.harsh.hotelManagement.model.enums.AddHotelResponseVo;
 import com.harsh.hotelManagement.model.enums.HotelStatus;
 import com.harsh.hotelManagement.model.enums.RoomStatus;
-import com.harsh.hotelManagement.validation.HotelValidation;
+import com.harsh.hotelManagement.repository.HotelRepository;
+import com.harsh.hotelManagement.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class HotelService {
@@ -22,7 +23,10 @@ public class HotelService {
     private UserService userService;
 
     @Autowired
-    private HotelValidation hotelValidation;
+    private HotelRepository hotelRepository;
+
+    @Autowired
+    private Validation hotelValidation;
 
     private List<Room> roomH1 = new ArrayList<Room>( Arrays.asList(
             new Room("usaRoom1", RoomStatus.VACANT),
@@ -60,26 +64,7 @@ public class HotelService {
         return hotelIdx;
     }
 
-    private boolean isAuthorised(User user, Room room){
-        return user.getName().equals(room.getRentedTo().getName());
-    }
-
-//    ---------- public -----------
-    public Hotel getHotelByName(String name){
-        Hotel hotel = null;
-        int idx = getHotelIdxByName(name);
-        return idx == -1 ? null : hotels.get(idx);
-    }
-
-    public List<Hotel> getHotelByLocation(String location){
-        List<Hotel> hotelListRes;
-
-        hotelListRes = hotels.stream().filter((hotel) -> hotel.getLocation().equals(location)).collect(Collectors.toList());
-
-        return hotelListRes;
-    }
-
-    public List<Hotel> getHotelByAvailability(){
+    private List<Hotel> getHotelByHotelAvailability(){
         List<Hotel> availableHotels = new ArrayList<>();
         for (Hotel hotel : hotels)
             if(hotel.getStatus().equals(HotelStatus.OPEN)) availableHotels.add(hotel);
@@ -87,31 +72,52 @@ public class HotelService {
         return availableHotels;
     }
 
-    public List<Hotel> getHotelByRoomAvailability(){
-        List<Hotel> availableHotels = new ArrayList<>();
-        List<Hotel> openedHotels = getHotelByAvailability();
-
-        for (Hotel hotel : openedHotels)
-            if(hotel.getAvailableRoomCnt()>0) availableHotels.add(hotel);
-
-        return availableHotels;
+    //to check user authorisation for withdrawing a room.
+    private boolean isAuthorised(User user, Room room){
+        return user.getUsername().equals(room.getRentedTo());
     }
 
-    public boolean addHotel(Hotel hotel){
-        boolean isAdded = true;//assume hotel is good to get added
+//    ---------- public -----------
+    public Optional<Hotel>  getHotelByName(String name){
+          return hotelRepository.findById(name);
+//        Hotel hotel = null;
+//        int idx = getHotelIdxByName(name);
+//        return idx == -1 ? null : hotels.get(idx);
+    }
 
-        if(!hotelValidation.isNewHotelValid(hotel)) isAdded = false;//validation failed
-        else hotels.add(hotel);
+    public Optional<List<Hotel>> getHotelByLocation(String location){
+        return hotelRepository.findHotelsByLocation(location);
+    }
 
-        return isAdded;
+    public Optional<List<Hotel>> getHotelByAvailability(){
+        return hotelRepository.getHotelsByAvailability();
+    }
+
+    public AddHotelResponseVo addHotel(Hotel hotel){
+        AddHotelResponseVo addHotelResponseVo;
+
+        if(hotelRepository.findById(hotel.getName()).isPresent())
+            addHotelResponseVo = new AddHotelResponseVo("Hotel already exist", null);
+        else if(!hotelValidation.isNewHotelValid(hotel))
+            addHotelResponseVo = new AddHotelResponseVo("Data Validation Failed", null);
+        else
+            addHotelResponseVo = new AddHotelResponseVo("Hotel added successfully", hotelRepository.save(hotel));
+
+        return addHotelResponseVo;
     }
 
     public List<Room> getRoomByHotelName(String hotelName){
 
-        for (Hotel hotel : hotels)
-            if(hotel.getName().equals(hotelName)) return hotel.getAllRooms();
+        Optional<Hotel> optionalHotel = getHotelByName(hotelName);
+        if(optionalHotel.isPresent())
+            return optionalHotel.get().getAllRooms();
+        else
+            return new ArrayList<>();
 
-        return new ArrayList<>();
+//        for (Hotel hotel : hotels)
+//            if(hotel.getName().equals(hotelName)) return hotel.getAllRooms();
+//
+//        return new ArrayList<>();
     }
 
     public String bookRoom(String hotelName, String roomId, String userName){
@@ -145,7 +151,7 @@ public class HotelService {
 
         //room booking logic
         room.setStatus(RoomStatus.BOOKED);
-        room.setRentedTo(user);
+        room.setRentedTo(user.getUsername());
         hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() - 1);
 
         return "Room is booked successfully";

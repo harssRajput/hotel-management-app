@@ -1,14 +1,14 @@
 package com.harsh.hotelManagement.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.Generated;
 
 @Document(collection = "users")
 public class User {
     @Id
-    String username;//suppose to be passed unique or get error.
+    String username;//suppose to be passed unique or internally assigned a default unique-id.
     String name;
     int age;
 
