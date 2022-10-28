@@ -18,21 +18,21 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private List<User> users = new ArrayList<User>(Arrays.asList(
-            new User("Ram", 30, "ram001"),
-            new User("Shyam", 30, "shyam002")
-    ));
+//    private List<User> users = new ArrayList<User>(Arrays.asList(
+//            new User("Ram", 30, "ram001"),
+//            new User("Shyam", 30, "shyam002")
+//    ));
 
-    private int getCustomerIdxByName(String name){
-        if(name.equals("")) return -1;
-
-        int customerIdx=-1;
-
-        for(int i = 0; i< users.size(); i++)
-            if(users.get(i).getName().equals(name)) customerIdx = i;
-
-        return customerIdx;
-    }
+//    private int getCustomerIdxByName(String name){
+//        if(name.equals("")) return -1;
+//
+//        int customerIdx=-1;
+//
+//        for(int i = 0; i< users.size(); i++)
+//            if(users.get(i).getName().equals(name)) customerIdx = i;
+//
+//        return customerIdx;
+//    }
 
 //  ------------ public ----------------
 

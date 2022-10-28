@@ -35,7 +35,8 @@ public class UserController {
     @PostMapping("/user")
     public AddUserResponseVo addUser(@RequestBody User user){
 
-        if(user.getUsername() != null && user.getUsername().trim().isEmpty()) user.setUsername(null);
+        if(user.getUsername() != null && user.getUsername().trim().isEmpty())
+            user.setUsername(null);
 
         return userService.addUser(user);
     }

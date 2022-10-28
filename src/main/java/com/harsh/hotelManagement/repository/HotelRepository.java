@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository  //-- need to learn
+@Repository  //-- need to learn it
 public interface HotelRepository extends MongoRepository<Hotel, String> {
+
     @Query("{$and:[{status: OPEN},{availableRoomCnt:{ $gt: 0 }}]}")
     Optional<List<Hotel>> getHotelsByAvailability();
 

@@ -2,7 +2,6 @@ package com.harsh.hotelManagement.model;
 
 import com.harsh.hotelManagement.model.enums.HotelStatus;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -21,7 +20,7 @@ public class Hotel {
     @Field(targetType = FieldType.STRING)
     private HotelStatus status;
 
-//    public Hotel() {}
+    public Hotel() {}
     public Hotel(String name, String location, HotelStatus status){
         this.name = name;
         this.location = location;

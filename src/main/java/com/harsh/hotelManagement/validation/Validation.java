@@ -5,7 +5,6 @@ import com.harsh.hotelManagement.model.Room;
 import com.harsh.hotelManagement.model.enums.HotelStatus;
 import com.harsh.hotelManagement.model.enums.RoomStatus;
 import com.harsh.hotelManagement.repository.UserRepository;
-import com.harsh.hotelManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +37,7 @@ public class Validation {
         return isValid;
     }
 
+    //     --------------- public ---------------
     public boolean isNewHotelValid(Hotel hotel){
         return (hotel.getName()==null
                 || hotel.getName().trim().isEmpty()

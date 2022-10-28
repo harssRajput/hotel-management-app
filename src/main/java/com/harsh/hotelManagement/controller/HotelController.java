@@ -3,7 +3,7 @@ package com.harsh.hotelManagement.controller;
 import com.harsh.hotelManagement.model.Hotel;
 import com.harsh.hotelManagement.model.Room;
 import com.harsh.hotelManagement.model.RoomActionRequestVo;
-import com.harsh.hotelManagement.model.enums.AddHotelResponseVo;
+import com.harsh.hotelManagement.model.AddHotelResponseVo;
 import com.harsh.hotelManagement.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -56,11 +56,6 @@ public class HotelController {
     public String withdrawRoom(@RequestBody RoomActionRequestVo roomActionRequestVo){
         return hotelService.withdrawRoom(roomActionRequestVo.getHotelName(), roomActionRequestVo.getRoomId(), roomActionRequestVo.getUserName());
     }
-
-//    @GetMapping("/hotel/room/available")
-//    public List<Hotel> getHotelByRoomAvailability(){
-//        return hotelService.getHotelByRoomAvailability();
-//    }
 
     @PostMapping("/hotel")
     public AddHotelResponseVo addHotel(@RequestBody Hotel hotel){

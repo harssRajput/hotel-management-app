@@ -1,4 +1,4 @@
-package com.harsh.hotelManagement.model.enums;
+package com.harsh.hotelManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
