@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="77407a3c-ee21-44b6-a14a-9d97b551dadd" name="Changes" comment="add customer apis">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/harsh/hotelManagement/service/HotelService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

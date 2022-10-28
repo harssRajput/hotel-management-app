@@ -181,13 +181,14 @@ public class HotelService {
             return "User not exist";
         }
 
-        for (Hotel h : hotels)
-            if(h.getName().equals(hotelName)){
-                hotel = h;
-                break;
-            }
-        if(hotel == null) return "Hotel not exist";
-        if(hotel.getStatus().equals(HotelStatus.CLOSED)) return "Hotel is Closed";
+        Optional<Hotel> optionalHotel = hotelRepository.findById(hotelName);
+        if(optionalHotel.isPresent()){
+            hotel = optionalHotel.get();
+            if(hotel.getStatus().equals(HotelStatus.CLOSED))
+                return "Hotel is Closed";
+        }
+        else
+            return "Hotel not exist";
 
         for (Room r : hotel.getAllRooms())
             if(r.getRoomId().equals(roomId)){
@@ -203,6 +204,7 @@ public class HotelService {
         room.setStatus(RoomStatus.VACANT);
         room.setRentedTo(null);
         hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() + 1);
+        hotelRepository.save(hotel);
 
         return "Room is withdrawn successfully";
     }
