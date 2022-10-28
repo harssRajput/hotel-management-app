@@ -7,6 +7,7 @@ import com.harsh.hotelManagement.model.enums.AddHotelResponseVo;
 import com.harsh.hotelManagement.model.enums.HotelStatus;
 import com.harsh.hotelManagement.model.enums.RoomStatus;
 import com.harsh.hotelManagement.repository.HotelRepository;
+import com.harsh.hotelManagement.repository.UserRepository;
 import com.harsh.hotelManagement.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class HotelService {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
     private HotelRepository hotelRepository;
@@ -126,20 +127,29 @@ public class HotelService {
         User user = null;
 
         //validation
-        Optional<User> optionalUser = userService.findUserByUserName(userName);
+        Optional<User> optionalUser = userRepository.findUserByUsername(userName);
         if(optionalUser.isPresent()){
             user = optionalUser.get();
         }else{
             return "User not exist";
         }
 
-        for (Hotel h : hotels)
-            if(h.getName().equals(hotelName)){
-                hotel = h;
-                break;
-            }
-        if(hotel == null) return "Hotel not exist";
-        if(hotel.getStatus().equals(HotelStatus.CLOSED)) return "Hotel is Closed";
+        Optional<Hotel> optionalHotel = hotelRepository.findById(hotelName);
+        if(optionalHotel.isPresent()){
+            hotel = optionalHotel.get();
+            if(hotel.getStatus().equals(HotelStatus.CLOSED))
+                return "Hotel is Closed";
+        }
+        else
+            return "Hotel not exist";
+
+//        for (Hotel h : hotels)
+//            if(h.getName().equals(hotelName)){
+//                hotel = h;
+//                break;
+//            }
+//        if(hotel == null) return "Hotel not exist";
+//        if(hotel.getStatus().equals(HotelStatus.CLOSED)) return "Hotel is Closed";
 
         for (Room r : hotel.getAllRooms())
             if(r.getRoomId().equals(roomId)){
@@ -153,6 +163,7 @@ public class HotelService {
         room.setStatus(RoomStatus.BOOKED);
         room.setRentedTo(user.getUsername());
         hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() - 1);
+        hotelRepository.save(hotel);
 
         return "Room is booked successfully";
     }
@@ -163,7 +174,7 @@ public class HotelService {
         User user = null;
 
         //validation
-        Optional<User> optionalUser = userService.findUserByUserName(userName);
+        Optional<User> optionalUser = userRepository.findUserByUsername(userName);
         if(optionalUser.isPresent()){
             user = optionalUser.get();
         }else{
