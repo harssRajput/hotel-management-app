@@ -9,6 +9,8 @@ import com.harsh.hotelManagement.model.enums.RoomStatus;
 import com.harsh.hotelManagement.repository.HotelRepository;
 import com.harsh.hotelManagement.repository.UserRepository;
 import com.harsh.hotelManagement.validation.Validation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class HotelService {
+
+    private Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -35,37 +39,77 @@ public class HotelService {
 
 //       -------------- public ---------------
     public Optional<Hotel>  getHotelByName(String name){
-          return hotelRepository.findById(name);
+        try{
+            log.info("method: HotelService.getHotelByName searching hotel by name --> {}", name);
+            return hotelRepository.findById(name);
+        }catch(Exception e){
+            log.error("method: HotelService.getHotelByName --> something went wrong in querying db --> {}",e);
+            return null;
+        }
     }
 
     public Optional<List<Hotel>> getHotelByLocation(String location){
-        return hotelRepository.findHotelsByLocation(location);
+        try {
+            log.info("method: HotelService.getHotelByLocation searching hotel by location --> {}", location);
+            return hotelRepository.findHotelsByLocation(location);
+        }catch(Exception e){
+            log.error("method: HotelService.getHotelByLocation --> something went wrong in querying db --> {}",e);
+            return null;
+        }
     }
 
     public Optional<List<Hotel>> getHotelByAvailability(){
-        return hotelRepository.getHotelsByAvailability();
+        try {
+            log.info("method: HotelService.getHotelByAvailability searching hotel by availability");
+            return hotelRepository.getHotelsByAvailability();
+        }catch(Exception e){
+            log.error("method: HotelService.getHotelByAvailability --> something went wrong in querying db --> {}",e);
+            return null;
+        }
     }
 
     public AddHotelResponseVo addHotel(Hotel hotel){
         AddHotelResponseVo addHotelResponseVo;
 
-        if(hotelRepository.findById(hotel.getName()).isPresent())
-            addHotelResponseVo = new AddHotelResponseVo("Hotel already exist", null);
-        else if(!hotelValidation.isNewHotelValid(hotel))
-            addHotelResponseVo = new AddHotelResponseVo("Data Validation Failed", null);
-        else
-            addHotelResponseVo = new AddHotelResponseVo("Hotel added successfully", hotelRepository.save(hotel));
+        try{
+            log.info("method: HotelService.addHotel adding the new hotel --> {}", hotel);
+            if(hotelRepository.findById(hotel.getName()).isPresent()) {
+                log.info("method: HotelService.addHotel --> Hotel already exist");
+                addHotelResponseVo = new AddHotelResponseVo("Hotel already exist", null);
+            }
+            else if(!hotelValidation.isNewHotelValid(hotel)) {
+                log.info("method: HotelService.addHotel --> hotel data is not valid --> {}", hotel);
+                addHotelResponseVo = new AddHotelResponseVo("Data Validation Failed", null);
+            }
+            else {
+                log.info("method: HotelService.addHotel --> hotel added successfully");
+                addHotelResponseVo = new AddHotelResponseVo("Hotel added successfully", hotelRepository.save(hotel));
+            }
+        }catch(Exception e){
+            log.error("method: HotelService.addHotel --> something went wrong in querying db --> {}",e);
+            addHotelResponseVo = new AddHotelResponseVo("Operation Failed! Internal server error", null);
+        }
 
         return addHotelResponseVo;
     }
 
     public List<Room> getRoomByHotelName(String hotelName){
 
-        Optional<Hotel> optionalHotel = getHotelByName(hotelName);
-        if(optionalHotel.isPresent())
-            return optionalHotel.get().getAllRooms();
-        else
-            return new ArrayList<>();
+        try{
+            log.info("method: HotelService.getRoomByHotelName --> getting rooms by hotelname --> {}", hotelName);
+            Optional<Hotel> optionalHotel = getHotelByName(hotelName);
+            if(optionalHotel.isPresent()) {
+                log.info("method: HotelService.getRoomByHotelName --> hotel found");
+                return optionalHotel.get().getAllRooms();
+            }
+            else {
+                log.info("method: HotelService.getRoomByHotelName --> hotel not found");
+                return new ArrayList<>();
+            }
+        }catch(Exception e){
+            log.error("method: HotelService.getRoomByHotelName --> something went wrong in querying db --> {}",e);
+            return null;
+        }
     }
 
     public String bookRoom(String hotelName, String roomId, String userName){
@@ -73,35 +117,42 @@ public class HotelService {
         Room room = null;
         User user = null;
 
-        //validation
-        Optional<User> optionalUser = userRepository.findUserByUsername(userName);
-        if(optionalUser.isPresent()) user = optionalUser.get();
-        else return "User not exist";
+        try{
+            //validation
+            Optional<User> optionalUser = userRepository.findUserByUsername(userName);
+            log.info("method: HotelService.bookRoom --> found optionalUser --> {} by username --> {}", optionalUser, userName);
+            if(optionalUser.isPresent()) user = optionalUser.get();
+            else return "User not exist";
 
-        Optional<Hotel> optionalHotel = hotelRepository.findById(hotelName);
-        if(optionalHotel.isPresent()){
-            hotel = optionalHotel.get();
-            if(hotel.getStatus().equals(HotelStatus.CLOSED))
-                return "Hotel is Closed";
-        }
-        else
-            return "Hotel not exist";
-
-        for (Room r : hotel.getAllRooms())
-            if(r.getRoomId().equals(roomId)){
-                room = r;
-                break;
+            Optional<Hotel> optionalHotel = hotelRepository.findById(hotelName);
+            log.info("method: HotelService.bookRoom --> found optionalHotel --> {} by hotelname --> {}", optionalHotel, hotelName);
+            if(optionalHotel.isPresent()){
+                hotel = optionalHotel.get();
+                if(hotel.getStatus().equals(HotelStatus.CLOSED))
+                    return "Hotel is Closed";
             }
-        if(room == null) return "room not exist";
-        if(room.getStatus().equals(RoomStatus.BOOKED)) return "Room is not available";
+            else
+                return "Hotel not exist";
 
-        //room booking logic
-        room.setStatus(RoomStatus.BOOKED);
-        room.setRentedTo(user.getUsername());
-        hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() - 1);
-        hotelRepository.save(hotel);
+            for (Room r : hotel.getAllRooms())
+                if(r.getRoomId().equals(roomId)){
+                    room = r;
+                    break;
+                }
+            if(room == null) return "room not exist";
+            if(room.getStatus().equals(RoomStatus.BOOKED)) return "Room is not available";
 
-        return "Room is booked successfully";
+            //room booking logic
+            room.setStatus(RoomStatus.BOOKED);
+            room.setRentedTo(user.getUsername());
+            hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() - 1);
+            hotelRepository.save(hotel);
+            log.info("method: HotelService.bookRoom --> booked room successfully in hotel --> {}", hotel);
+            return "Room is booked successfully";
+        }catch(Exception e){
+            log.error("method: HotelService.bookRoom --> something went wrong --> {}",e);
+            return "Something Went Wrong!";
+        }
     }
 
     public String withdrawRoom(String hotelName, String roomId, String userName){
@@ -109,36 +160,44 @@ public class HotelService {
         Room room = null;
         User user = null;
 
-        //validation
-        Optional<User> optionalUser = userRepository.findUserByUsername(userName);
-        if(optionalUser.isPresent()) user = optionalUser.get();
-        else return "User not exist";
+        try{
+            //validation
+            Optional<User> optionalUser = userRepository.findUserByUsername(userName);
+            log.info("method: HotelService.withdrawRoom --> found optionalUser --> {} by username --> {}", optionalUser, userName);
+            if(optionalUser.isPresent()) user = optionalUser.get();
+            else return "User not exist";
 
-        Optional<Hotel> optionalHotel = hotelRepository.findById(hotelName);
-        if(optionalHotel.isPresent()){
-            hotel = optionalHotel.get();
-            if(hotel.getStatus().equals(HotelStatus.CLOSED))
-                return "Hotel is Closed";
-        }
-        else
-            return "Hotel not exist";
-
-        for (Room r : hotel.getAllRooms())
-            if(r.getRoomId().equals(roomId)){
-                room = r;
-                break;
+            Optional<Hotel> optionalHotel = hotelRepository.findById(hotelName);
+            log.info("method: HotelService.withdrawRoom --> found optionalHotel --> {} by hotelname --> {}", optionalHotel, hotelName);
+            if(optionalHotel.isPresent()){
+                hotel = optionalHotel.get();
+                if(hotel.getStatus().equals(HotelStatus.CLOSED))
+                    return "Hotel is Closed";
             }
-        if(room == null) return "room not exist";
-        if(room.getStatus().equals(RoomStatus.VACANT)) return "Room is already Vacant";
+            else
+                return "Hotel not exist";
 
-        if(!isAuthorised(user, room)) return "Failed! user not authorised to withdraw room";
+            for (Room r : hotel.getAllRooms())
+                if(r.getRoomId().equals(roomId)){
+                    room = r;
+                    break;
+                }
+            if(room == null) return "room not exist";
+            if(room.getStatus().equals(RoomStatus.VACANT)) return "Room is already Vacant";
 
-        //withdraw room logic
-        room.setStatus(RoomStatus.VACANT);
-        room.setRentedTo(null);
-        hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() + 1);
-        hotelRepository.save(hotel);
+            if(!isAuthorised(user, room)) return "Failed! user not authorised to withdraw room";
 
-        return "Room is withdrawn successfully";
+            //withdraw room logic
+            room.setStatus(RoomStatus.VACANT);
+            room.setRentedTo(null);
+            hotel.setAvailableRoomCnt(hotel.getAvailableRoomCnt() + 1);
+            hotelRepository.save(hotel);
+            log.info("method: HotelService.withdrawRoom --> withdrawn room successfully in hotel --> {}", hotel);
+
+            return "Room is withdrawn successfully";
+        }catch(Exception e){
+            log.error("method: HotelService.withdrawRoom --> something went wrong --> {}",e);
+            return "Something Went Wrong!";
+        }
     }
 }
